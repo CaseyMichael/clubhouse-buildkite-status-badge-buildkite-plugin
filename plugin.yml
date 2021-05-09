@@ -1,9 +1,17 @@
-name: Clubhouse Plugin
-description: Posts to your clubhouse story when buildkite passes.
-author: Casey
-requirements: []
+name: Clubhouse Buildkite Status Badge Plugin
+description: Creates a task with the buildkite status badge on your Clubhouse story
+author: CaseyMichael
+requirements: 
+  - curl
+  - jq
 configuration:
   properties:
-    pattern:
+    CLUBHOUSE_API_TOKEN:
       type: string
-  additionalProperties: false
+    GITHUB_BRANCH_NAME:
+      type: string
+    BUILDKITE_PIPELINE_URL:
+      type: string
+    BUILDKITE_PIPELINE_BADGE_URL:
+      type: string
+    
