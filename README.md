@@ -10,7 +10,7 @@ Add the following to your `pipeline.yml`:
 steps:
   - command: ls
     plugins:
-      - CaseyMichael/clubhouse#v1.0.0:
+      - CaseyMichael/clubhouse:
           pattern: '*.md'
 ```
 
