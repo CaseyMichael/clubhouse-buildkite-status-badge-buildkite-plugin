@@ -5,6 +5,6 @@ services:
       - ".:/plugin:ro"
   lint:
     image: buildkite/plugin-linter
-    command: ['--id', 'CaseyMichael/clubhouse-plugin']
+    command: ['--id', 'CaseyMichael/clubhouse']
     volumes:
       - ".:/plugin:ro"
