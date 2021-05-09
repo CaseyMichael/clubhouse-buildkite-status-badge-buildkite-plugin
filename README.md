@@ -9,7 +9,7 @@ The following pipeline will add a buildkite badge to a task for [Clubhouse](http
 ```yml
 steps:
   - plugins:
-      - CaseyMichael/clubhouse-buildkite-status-badge#v1.2.3:
+      - CaseyMichael/clubhouse-buildkite-status-badge#v1.0.0:
           CLUBHOUSE_API_TOKEN: value
           GITHUB_BRANCH_NAME: feature/ch17-clubhouse-ticket-name
           BUILDKITE_PIPELINE_URL: https://buildkite.com/org-name
