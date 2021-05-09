@@ -1,5 +1,5 @@
 # Example
-![Clubhouse Task](https://imgur.com/eSGqrRa)
+![Clubhouse Task](https://imgur.com/eSGqrRa.png)
 
 ```yml
 steps:
