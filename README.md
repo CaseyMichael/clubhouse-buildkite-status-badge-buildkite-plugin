@@ -2,6 +2,7 @@
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/CaseyMichael/clubhouse-buildkite-status-badge-buildkite-plugin)
 
 A [Buildkite plugin](https://buildkite.com/docs/agent/v3/plugins) that adds a branch specific buildkite badge to a task on a [Clubhouse](https://clubhouse.io/) ticket
+
 ![Clubhouse Task](https://imgur.com/eSGqrRa.png)
 
 ## Example
