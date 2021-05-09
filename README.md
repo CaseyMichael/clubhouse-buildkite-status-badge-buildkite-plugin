@@ -1,10 +1,10 @@
 # Clubhouse Buildkite Status Badge Plugin
-A [Buildkite plugin](https://buildkite.com/docs/agent/v3/plugins) that adds a branch specific buildkite badge to a task on a clubhouse ticket
+A [Buildkite plugin](https://buildkite.com/docs/agent/v3/plugins) that adds a branch specific buildkite badge to a task on a [Clubhouse](https://clubhouse.io/) ticket
 ![Clubhouse Task](https://imgur.com/eSGqrRa.png)
 
 ## Example
 
-The following pipeline will add a buildkite badge to a task for Clubhouse ticket `ch17`:
+The following pipeline will add a buildkite badge to a task for [Clubhouse](https://clubhouse.io/) ticket `ch17`:
 
 ```yml
 steps:
