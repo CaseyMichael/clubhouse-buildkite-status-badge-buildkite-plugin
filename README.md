@@ -1,6 +1,7 @@
-# Example
+Buildkite plugin adds a branch specific buildkite badge to the related clubhouse ticket
 ![Clubhouse Task](https://imgur.com/eSGqrRa.png)
 
+## Example
 ```yml
 steps:
   - plugins:
