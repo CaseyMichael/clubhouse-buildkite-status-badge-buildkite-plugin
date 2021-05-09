@@ -1,0 +1,9 @@
+name: Clubhouse Plugin
+description: Posts to your clubhouse story when buildkite passes.
+author: Casey
+requirements: []
+configuration:
+  properties:
+    pattern:
+      type: string
+  additionalProperties: false

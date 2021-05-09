@@ -1,0 +1,6 @@
+services:
+  lint:
+    image: buildkite/plugin-linter
+    command: ['--id', 'CaseyMichael/clubhouse-buildkite-plugin']
+    volumes:
+      - ".:/plugin:ro"
