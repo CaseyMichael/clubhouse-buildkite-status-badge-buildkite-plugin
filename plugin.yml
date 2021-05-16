@@ -8,8 +8,6 @@ configuration:
   properties:
     CLUBHOUSE_API_TOKEN:
       type: string
-    GITHUB_BRANCH_NAME:
-      type: string
     BUILDKITE_PIPELINE_URL:
       type: string
     BUILDKITE_PIPELINE_BADGE_URL:
