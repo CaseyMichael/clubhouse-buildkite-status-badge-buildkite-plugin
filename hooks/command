@@ -1,48 +1,56 @@
 #!/bin/bash
 set -euo pipefail
 
-CLUBHOUSE_API_TOKEN="$BUILDKITE_PLUGIN_CLUBHOUSE_BUILDKITE_STATUS_BADGE_CLUBHOUSE_API_TOKEN"
-PIPELINE_URL="$BUILDKITE_PLUGIN_CLUBHOUSE_BUILDKITE_STATUS_BADGE_BUILDKITE_PIPELINE_URL"
-PIPELINE_BADGE_URL="$BUILDKITE_PLUGIN_CLUBHOUSE_BUILDKITE_STATUS_BADGE_BUILDKITE_PIPELINE_BADGE_URL"
+# Environment Variables
+CLUBHOUSE_API_TOKEN="$BUILDKITE_PLUGIN_CLUBHOUSE_RELEASE_CLUBHOUSE_API_TOKEN"
+CLUBHOUSE_RELEASE_STORY_ID="$BUILDKITE_PLUGIN_CLUBHOUSE_RELEASE_CLUBHOUSE_RELEASE_STORY_ID"
+GITHUB_API_TOKEN="$BUILDKITE_PLUGIN_CLUBHOUSE_RELEASE_GITHUB_API_TOKEN"
+GITHUB_PULL_NUMBER="$BUILDKITE_PLUGIN_CLUBHOUSE_RELEASE_GITHUB_PULL_NUMBER"
+GITHUB_BASE_BRANCH="$BUILDKITE_PLUGIN_CLUBHOUSE_RELEASE_GITHUB_BASE_BRANCH"
+GITHUB_HEAD_BRANCH="$BUILDKITE_PLUGIN_CLUBHOUSE_RELEASE_GITHUB_HEAD_BRANCH"
+GITHUB_OWNER="$BUILDKITE_PLUGIN_CLUBHOUSE_RELEASE_GITHUB_OWNER"
+GITHUB_REPO="$BUILDKITE_PLUGIN_CLUBHOUSE_RELEASE_GITHUB_REPO"
 
-regex="ch([0-9]*)"
-pipeline_badge="[![Build status]($PIPELINE_BADGE_URL?branch=$BUILDKITE_BRANCH)]($PIPELINE_URL)"
+# helper variables
+clubhouse_regex="ch([0-9]+)"
+clubhouse_story_ids=()
 
-echo "--- Parse Clubhouse Ticket from Branch name"
-if [[ $BUILDKITE_BRANCH =~ $regex ]]
-then
-    clubhouse_story_id="${BASH_REMATCH[1]}"
-else 
-    echo "unable to determine clubhouse story id"
-    return -1
-fi
+pull_commits_response=$(curl -X GET \
+    -H "Authorization: token ${GITHUB_API_TOKEN}" \
+    -L "https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/pulls/${GITHUB_PULL_NUMBER}/commits")
 
+commits=( $(jq -r '.[].commit.message' <<< "$pull_commits_response") )
 
-story=$(curl -X GET \
-    -H "Content-Type: application/json" \
-    -H "Clubhouse-Token: ${CLUBHOUSE_API_TOKEN}" \
-    -L "https://api.clubhouse.io/api/v3/stories/${clubhouse_story_id}")
+# echo "${#commits[@]}"
+# printf '%s\n' "${commits[@]}"
 
-story_tasks=$(jq '.tasks[]' <<< "${story}")
-build_status_task=$(jq -c 'select(.description | contains("Build status"))' <<< "${story_tasks}")
+for commit in "${commits[@]}"; do
+    # echo $commit
+    if [[ $commit =~ $clubhouse_regex ]]
+    then 
+        # echo "found clubhouse story ${BASH_REMATCH[1]}"
+        clubhouse_story_ids+=(${BASH_REMATCH[1]})
+    fi
+done
 
-generate_build_stats_task_payload()
+# printf '%s\n' "${clubhouse_story_ids[@]}"
+
+generate_story_links_payload()
 {
 cat <<EOF
 {
-    "description": "$pipeline_badge"
+    "object_id": "$1",
+    "subject_id": "$CLUBHOUSE_RELEASE_STORY_ID",
+    "verb": "relates to"
 }
 EOF
 }
 
-if [ -z "$build_status_task" ]
-then
-    echo "--- creating the build status task"
-    story=$(curl -X POST \
+for story_id in "${clubhouse_story_ids[@]}"; do 
+    story_link_response=$(curl -X POST \
         -H "Content-Type: application/json" \
-        -H "Clubhouse-Token: ${CLUBHOUSE_API_TOKEN}" \
-        -d "$(generate_build_stats_task_payload)" \
-        -L "https://api.clubhouse.io/api/v3/stories/${clubhouse_story_id}/tasks")
-else
-    echo "--- build status task already exists"
-fi
+        -H "Clubhouse-Token: $CLUBHOUSE_API_TOKEN" \
+        -d  "$(generate_story_links_payload $story_id)" \
+        -L "https://api.clubhouse.io/api/v3/story-links")
+    echo $story_link_response | jq '.'
+done
