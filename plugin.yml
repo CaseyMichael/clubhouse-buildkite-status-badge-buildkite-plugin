@@ -1,5 +1,5 @@
-name: Clubhouse Release Plugin
-description: Creates a Clubhouse release from merged in features
+name: Clubhouse Buildkite Status Badge Plugin
+description: Creates a Clubhouse task with a branch specific buildkite status badge
 author: CaseyMichael
 requirements: 
   - curl
@@ -8,15 +8,8 @@ configuration:
   properties:
     CLUBHOUSE_API_TOKEN:
       type: string
-    CLUBHOUSE_RELEASE_STORY_ID:
-      type: number
-    GITHUB_API_TOKEN:
+    BUILDKITE_PIPELINE_URL:
       type: string
-    GITHUB_OWNER:
+    BUILDKITE_PIPELINE_BADGE_URL:
       type: string
-    GITHUB_REPO:
-      type: string
-    GITHUB_BASE_BRANCH:
-      type: string
-    GITHUB_RELEASE_BRANCH:
-      type: string
+    
