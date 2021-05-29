@@ -1,6 +1,6 @@
 name: Clubhouse Buildkite Status Badge Plugin
 description: Creates a Clubhouse task with a branch specific buildkite status badge
-author: CaseyMichael
+author: https://github.com/CaseyMichael
 requirements: 
   - curl
   - jq
@@ -9,6 +9,8 @@ configuration:
     CLUBHOUSE_API_TOKEN:
       type: string
     BUILDKITE_BRANCH:
+      type: string
+    REPOSITORY_NAME:
       type: string
     BUILDKITE_PIPELINE_URL:
       type: string
