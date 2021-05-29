@@ -5,9 +5,11 @@ CLUBHOUSE_API_TOKEN="$BUILDKITE_PLUGIN_CLUBHOUSE_BUILDKITE_STATUS_BADGE_CLUBHOUS
 BUILDKITE_BRANCH="$BUILDKITE_PLUGIN_CLUBHOUSE_BUILDKITE_STATUS_BADGE_BUILDKITE_BRANCH"
 PIPELINE_URL="$BUILDKITE_PLUGIN_CLUBHOUSE_BUILDKITE_STATUS_BADGE_BUILDKITE_PIPELINE_URL"
 PIPELINE_BADGE_URL="$BUILDKITE_PLUGIN_CLUBHOUSE_BUILDKITE_STATUS_BADGE_BUILDKITE_PIPELINE_BADGE_URL"
+REPOSITORY_NAME="$BUILDKITE_PLUGIN_CLUBHOUSE_BUILDKITE_STATUS_BADGE_REPOSITORY_NAME"
 
 regex="ch([0-9]+)"
-pipeline_badge="[![Build status]($PIPELINE_BADGE_URL?branch=$BUILDKITE_BRANCH)]($PIPELINE_URL)"
+repository_badge="[![Team Badge](https://img.shields.io/badge/repository-${REPOSITORY_NAME}-informational)]()"
+pipeline_badge="[![$REPOSITORY_NAME Build status]($PIPELINE_BADGE_URL?branch=$BUILDKITE_BRANCH)]($PIPELINE_URL)"
 
 echo "--- Parse Clubhouse Ticket from Branch name"
 if [[ $BUILDKITE_BRANCH =~ $regex ]]
@@ -25,13 +27,13 @@ story=$(curl -X GET \
     -L "https://api.clubhouse.io/api/v3/stories/${clubhouse_story_id}")
 
 story_tasks=$(jq '.tasks[]' <<< "${story}")
-build_status_task=$(jq -c 'select(.description | contains("Build status"))' <<< "${story_tasks}")
+build_status_task=$(jq -c 'select(.description | contains("'${REPOSITORY_NAME}' Build status"))' <<< "${story_tasks}")
 
 generate_build_stats_task_payload()
 {
 cat <<EOF
 {
-    "description": "$pipeline_badge"
+    "description": "$repository_badge $pipeline_badge"
 }
 EOF
 }
