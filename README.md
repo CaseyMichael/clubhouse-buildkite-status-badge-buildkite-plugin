@@ -13,7 +13,7 @@ steps:
   - plugins:
       - caseymichael/clubhouse-buildkite-status-badge#v0.0.6:
           CLUBHOUSE_API_TOKEN: "CLUBHOUSE-API-TOKEN"
-          BUILDKITE_BRANCH: "feature/ch17-clubhouse-ticket-name"
+          BUILDKITE_BRANCH: "feature/sc-17/clubhouse-ticket-name"
           REPOSITORY_NAME: "repository-name"
           BUILDKITE_PIPELINE_URL: "https://buildkite.com/org-name"
           BUILDKITE_PIPELINE_BADGE_URL: "https://badge.buildkite.com/sample.svg"
