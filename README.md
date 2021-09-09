@@ -11,7 +11,7 @@ The following pipeline will add a branch specific buildkite status badge to a ta
 ```yml
 steps:
   - plugins:
-      - caseymichael/clubhouse-buildkite-status-badge#v0.0.5:
+      - caseymichael/clubhouse-buildkite-status-badge#v0.0.6:
           CLUBHOUSE_API_TOKEN: "CLUBHOUSE-API-TOKEN"
           BUILDKITE_BRANCH: "feature/ch17-clubhouse-ticket-name"
           REPOSITORY_NAME: "repository-name"
